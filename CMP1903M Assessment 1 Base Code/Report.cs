@@ -12,5 +12,15 @@ namespace CMP1903M_Assessment_1_Base_Code
         //Maybe have different methods for different formats of output?
         //eg.   public void outputConsole(List<int>)
 
-    }
+                
+
+    public void outputConsole(List<int> output)
+    {
+            for (int i = 0; i < output.Count; i++)
+            {
+                Console.WriteLine(output[i]);
+            }
+        }
+
+}
 }

@@ -74,16 +74,16 @@ namespace CMP1903M_Assessment_1_Base_Code
         //Gets text input from a .txt file
         public string fileTextInput()
         {
-            Console.WriteLine("Enter the full file path:");
-            string? path = Console.ReadLine();
-            //path = @"C:\Users\Zak\Uni\OOP\CMP1903M Assessment 1 Base Code\test.txt"; // test path only comment out on final release
+            //Console.WriteLine("Enter the full file path:");
+            //string? path = Console.ReadLine();
+            string? path = @"C:\Users\Zak\Uni\OOP\CMP1903M Assessment 1 Base Code\test.txt"; // test path only comment out on final release
 
             try
             {
                 string text = File.ReadAllText(path);
                 // return text from file. if file contains an escape charcter (*) return only the text before the first instance of the character
                 if (text.Contains('*')){
-                    Console.WriteLine("File contained an escape character (*). So only text before this character will be examined.");
+                    Console.WriteLine("File contained an escape character (*). So only text before this character will be examined.\n");
                     int escapeIndex = text.IndexOf('*');
                     text = text.Remove(escapeIndex);
                 }
