@@ -18,7 +18,7 @@ namespace CMP1903M_Assessment_1_Base_Code
         public int optionsInput()
         {
             Console.WriteLine("1. Do you want to enter the text via the keyboard?");
-            Console.WriteLine("2.Do you want to read in the text from a file?");
+            Console.WriteLine("2. Do you want to read in the text from a file?");
             Console.WriteLine("Enter your choice (1 or 2): ");
 
             string? ansText = Console.ReadLine();
