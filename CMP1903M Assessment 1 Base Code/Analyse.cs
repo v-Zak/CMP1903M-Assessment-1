@@ -16,6 +16,7 @@ namespace CMP1903M_Assessment_1_Base_Code
         //Calculates and returns an analysis of the text
         public List<int> analyseText(string text)
         {
+            //List of integers to hold the first five measurements:
             List<int> values = new List<int>();
             //Initialise all the values in the list to '0'
             for (int i = 0; i < 5; i++)
@@ -23,15 +24,13 @@ namespace CMP1903M_Assessment_1_Base_Code
                 values.Add(0);
             }
 
-            //List of integers to hold the first five measurements:
-            //1. Number of sentences
-            // Will consider each . as a sentence even if consecutive. Need to fix.
-            int sentences = text.Split('.').Length - 1;
-            values[0] = sentences;
+            //1. Number of sentences and remove punctuation            
+            var result = stripPunc(text);
+            string noPuncText = result.Item1;
+            values[0] = result.Item2;
 
-            // remove whitespaces and punctuation
-            string strippedText = strip(text);
-            Console.WriteLine(strippedText);
+            // remove whitespaces
+            string strippedText = removeWhite(noPuncText);
 
             //2. Number of vowels
             string vowels = "aeiou";
@@ -53,19 +52,73 @@ namespace CMP1903M_Assessment_1_Base_Code
 
             return values;
         }
+        public List<FrequencyPair> analyseFrequency(string text)
+        {
+            // strip the text into alphabetical characters only and convert to lower case
+            var result = stripPunc(text);
+            text = result.Item1;
+            text = removeWhite(text);
+            text = text.ToLower();
+
+            List<FrequencyPair> pairs = new List<FrequencyPair>();
+
+            var charFrequencies = from c in text.ToArray()                                  
+                                  group c by c into groupFrequencies
+                                  orderby groupFrequencies.Count() descending
+                                  select groupFrequencies;
+
+            foreach (var c in charFrequencies)
+            {
+                FrequencyPair pair = new FrequencyPair(c.Key.ToString(), c.Count());
+                pairs.Add(pair);
+            }
+            return pairs;
+        }
 
 
-        //Method: stip
+        //Method: stripPunc
         //Arguments: string
         //Returns: string
-        //returns a stipped copy of the original string
-        //the copy will only contain alphabetical characters
-        private string strip(string text)
+        //returns a stripped copy of the original string and the amount of sentences
+        //the copy will only contain alphanumerical characters and whitespaces
+        private Tuple<string, int> stripPunc(string text)
         {
+            int sentences = 0;
             var stringBuilder = new StringBuilder();
+            // use a bool to ensure proper counting of sentences
+            // if multiple punctuation in a row the number of sentences should only increase by one.
+            // i.e ... = 1 and !?!? = 1
+            bool lastPunc = false;  
+
+            // loop through each character and check if it is punctuation, if it isn't add to the stripped text
+            // else check if its the end of a sentence, if so increase the sentence count
             foreach(char c in text)
             {
-                if (char.IsLetter(c))
+                if (char.IsLetter(c) || c == ' ')  
+                {
+                    stringBuilder.Append(c);
+                    lastPunc = false;
+                }
+                else if((c == '.' || c == '?' || c == '!') && !lastPunc)
+                {
+                   
+                    sentences++;
+                    lastPunc = true;
+                }
+            }
+            return new Tuple<string, int> (stringBuilder.ToString(), sentences);
+        }
+
+        //Method: removeWhite
+        //Arguments: string
+        //Returns: string
+        //returns a string of characters excluding any spaces
+        private string removeWhite(string text)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (char c in text)
+            {
+                if (!(c == ' '))
                 {
                     stringBuilder.Append(c);
                 }
