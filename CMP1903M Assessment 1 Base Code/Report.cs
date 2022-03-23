@@ -18,9 +18,19 @@ namespace CMP1903M_Assessment_1_Base_Code
         public void outputConsole(List<int> output)
         {
             Console.WriteLine("See below the basic analysis of the text:");
+
+            string[] outputFormatting =
+            {
+                "Number of sentences = ",
+                "Number of vowels = ",
+                "Number of consonants = ",
+                "Number of upper case letters = ",
+                "Number of lower case letters = ",
+            };
+
             for (int i = 0; i < output.Count; i++)
             {
-                Console.WriteLine(output[i]);
+                Console.WriteLine(outputFormatting[i] + output[i].ToString());
             }
             Console.WriteLine(); // leave one line blank   
         }
@@ -56,7 +66,7 @@ namespace CMP1903M_Assessment_1_Base_Code
                 path = path + end;
 
                 // use the path to output the list of words and tell the user where it is
-                File.WriteAllLines(fileName, output);
+                File.WriteAllLines(path, output);
                 Console.WriteLine("A file of long words has successfully been created");
                 Console.WriteLine($"The path is: {path}");
             }     

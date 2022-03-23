@@ -27,7 +27,7 @@ namespace CMP1903M_Assessment_1_Base_Code
         //returns a formatted version of the data contained in the class
         public override string ToString()
         {
-            return $"Value: {value} - Frequency: {frequency}";
+            return $"Letter: {value} - Frequency: {frequency}";
         }
     }
 }

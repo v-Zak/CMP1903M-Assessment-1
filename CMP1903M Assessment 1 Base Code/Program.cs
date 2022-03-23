@@ -52,9 +52,9 @@ namespace CMP1903M_Assessment_1_Base_Code
             // if the choice was 2 then produce a long words file as well
             if (choice == 2)
             {
-                List<String> longWords = analyseManager.longWords();
+                List<String> longWords = analyseManager.analyseLongWords(text, 7);
                 string path = AppDomain.CurrentDomain.BaseDirectory;
-                string fileName = "/longWords.txt";
+                string fileName = "longWords.txt";
                 reportManager.outputFile(fileName, longWords);
             }
 
