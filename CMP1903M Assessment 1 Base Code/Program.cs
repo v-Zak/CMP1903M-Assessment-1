@@ -11,15 +11,13 @@ namespace CMP1903M_Assessment_1_Base_Code
     {
         static void Main()
         {
-            
 
             //Create 'Input' object
             Input inputManager = new Input();
 
             //Get either manually entered text, or text from a file.
             //Depending on answer picked by user
-            //int choice = inputManager.optionsInput();
-            int choice = 2;
+            int choice = inputManager.optionsInput();
             string text = "";
             if (choice == 1)
             {
@@ -32,8 +30,6 @@ namespace CMP1903M_Assessment_1_Base_Code
                 text = inputManager.fileTextInput();                    
             }
 
-            Console.WriteLine(text);
-
             //Create an 'Analyse' object
             Analyse analyseManager = new Analyse();
 
@@ -44,13 +40,23 @@ namespace CMP1903M_Assessment_1_Base_Code
             List<int> parameters = new List<int>();
             parameters = analyseManager.analyseText(text);
 
+            //List of FrequencyPairs to hold the frequencies of each character in the string
+            List<FrequencyPair> pairs = new List<FrequencyPair>();
+            pairs = analyseManager.analyseFrequency(text);           
+
             //Report the results of the analysis
             Report reportManager = new Report();
             reportManager.outputConsole(parameters);
+            reportManager.outputConsole(pairs);
 
-
-            //TO ADD: Get the frequency of individual letters?
-
+            // if the choice was 2 then produce a long words file as well
+            if (choice == 2)
+            {
+                List<String> longWords = analyseManager.analyseLongWords(text, 7);
+                string path = AppDomain.CurrentDomain.BaseDirectory;
+                string fileName = "longWords.txt";
+                reportManager.outputFile(fileName, longWords);
+            }
 
         }
 
