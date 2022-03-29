@@ -8,7 +8,9 @@ namespace CMP1903M_Assessment_1_Base_Code
 {
     public class FrequencyPair
     {
-        // used to store a string and its associated frequency
+        // class used to store a string and its associated frequency
+
+        // private sets so can't be changed externally but the values can still be viewed
         public string value { get; private set; }
 
         public int frequency { get; private set; }
