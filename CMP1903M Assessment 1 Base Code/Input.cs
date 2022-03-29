@@ -22,7 +22,7 @@ namespace CMP1903M_Assessment_1_Base_Code
             Console.WriteLine("2. Do you want to read in the text from a file?");
             Console.WriteLine("Enter your choice (1 or 2): ");
             string? ansText = Console.ReadLine();
-            // test to see if the input is valid before returing it            
+            // test to see if the input is valid before returning it            
             try
             {
                 // first try convert it to a integer
@@ -84,18 +84,24 @@ namespace CMP1903M_Assessment_1_Base_Code
             // Ask the user to enter the full file path
             // if nothing is entered then use the test file path
 
-            Console.WriteLine("Enter the full file path:");
+            Console.WriteLine("Enter the full file path or press enter to use the test file: ");
             string? path = Console.ReadLine();
-            if (path == null || path == "")
+            if (String.IsNullOrEmpty(path))
             {
                 Console.WriteLine("No path was entered so the test file will be used");
-                path = AppDomain.CurrentDomain.BaseDirectory; 
-                // Base Directory fetches the below path
-                //  ....\CMP1903M Assessment 1 Base Code\CMP1903M Assessment 1 Base Code\bin\Debug\net6.0\
-                // remove the end of the path and replace with the test file location
-                path = path.Split(@"\CMP1903M Assessment 1 Base Code\bin")[0];                
-                string end = @"\IO Folder\test.txt";
-                path = path + end;
+                // get the test file ensuring the file exists
+                try
+                {
+                    path = getTestPath();
+                }
+                catch (TestFileNotFoundException)
+                {
+                    // the test file couldn't be found so recall function
+                    Console.WriteLine("Error: The test file could not be found. Use a different file");
+                    return fileTextInput();
+                }
+
+                
                 Console.WriteLine(path);
             }
 
@@ -104,7 +110,7 @@ namespace CMP1903M_Assessment_1_Base_Code
                 // attempt to find the file from the path specified
                 // catch any errors found and recursively call the function until a valid file is read
                 string text = File.ReadAllText(path);
-                // return text from file. if file contains an escape charcter (*) return only the text before the first instance of the character
+                // return text from file. if file contains an escape character (*) return only the text before the first instance of the character
                 if (text.Contains('*')){
                     Console.WriteLine("File contained an escape character (*). So only text before this character will be examined.\n");
                     int escapeIndex = text.IndexOf('*');
@@ -118,13 +124,13 @@ namespace CMP1903M_Assessment_1_Base_Code
             }
             catch (FileNotFoundException)
             {
-                // Path top the file was invalid
+                // Path to the file was invalid so recall function
                 Console.WriteLine($"The file can't be found, {path} , try again.");
                 return fileTextInput();
             }
             catch (Exception exception)
             {
-                // Unexpexted error occured so print out the error message
+                // Unexpected error occured so print out the error message
                 Console.WriteLine($"Unexpected error:  { exception.Message }");
                 return fileTextInput();
             }
@@ -132,5 +138,29 @@ namespace CMP1903M_Assessment_1_Base_Code
             
         }
 
+        //Method: getTestPath
+        //Arguments: none
+        //Returns: string
+        //Gets the path of the test file and returns it
+        public string getTestPath()
+        {
+            // Get the path to the current excecutable
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            // Base Directory fetches the below path
+            //  ....\CMP1903M Assessment 1 Base Code\CMP1903M Assessment 1 Base Code\bin\Debug\net6.0\
+            // remove the end of the path and replace with the test file location
+            path = path.Split(@"\CMP1903M Assessment 1 Base Code\bin")[0];
+            string end = @"\IO Folder\test.txt";
+            path = path + end;
+            // check the path is valid before returning
+            if (File.Exists(path))
+            {
+                return path;
+            }
+            else
+            {
+                throw new TestFileNotFoundException();
+            }            
+        }
     }
 }

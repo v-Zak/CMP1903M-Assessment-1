@@ -31,13 +31,13 @@ namespace CMP1903M_Assessment_1_Base_Code
             values[0] = result.Item2;
 
             // remove whitespaces
-            string strippedText = removeWhite(noPuncText); // strippedText now contains only letters
+            string strippedText = removeWhiteSpaces(noPuncText); // strippedText now contains only letters
 
             //2. Number of vowels
             // string of vowels
             string vowels = "aeiou";
-            // count the total occurences of each vowel using the function
-            int numVowels = countOccurences(vowels, strippedText);
+            // count the total occurrences of each vowel using the function
+            int numVowels = countOccurrences(vowels, strippedText);
             values[1] = numVowels;
 
             //3. Number of consonants
@@ -60,7 +60,7 @@ namespace CMP1903M_Assessment_1_Base_Code
             // strip the text into alphabetical characters only and convert to lower case
             var result = stripPunc(text);
             text = result.Item1;
-            text = removeWhite(text);
+            text = removeWhiteSpaces(text);
             text = text.ToLower();
 
             List<FrequencyPair> pairs = new List<FrequencyPair>();
@@ -140,53 +140,44 @@ namespace CMP1903M_Assessment_1_Base_Code
             return new Tuple<string, int> (stringBuilder.ToString(), sentences);
         }
 
-        //Method: removeWhite
+        //Method: removeWhiteSpaces
         //Arguments: string
         //Returns: string
         //returns a string of characters excluding any spaces
-        private string removeWhite(string text)
+        private string removeWhiteSpaces(string text)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            // Loop through each character and add any that are not a space to a new string and return it
-            foreach (char c in text)
-            {
-                if (!(c == ' '))
-                {
-                    stringBuilder.Append(c);
-                }
-            }
-            return stringBuilder.ToString();
+            return text.Replace(" ", "");
         }
 
-        //Method: countOccurences
+        //Method: countOccurrences
         //Arguments: string, string
         //Returns: int
-        //returns the total occurences of all the individual letters in stringofLetters in the text
-        private int countOccurences(string stringOfLetters, string text)
+        //returns the total occurrences of all the individual letters in stringofLetters in the text
+        private int countOccurrences(string stringOfLetters, string text)
         {
             int count = 0;
-            // loop through each letter in the stringOfLetters and count occurences
+            // loop through each letter in the stringOfLetters and count occurrences
             foreach(char letter in stringOfLetters)
             {
                 // append the individual count returned to the total count for all the letters
-                count += countOccurences(letter, text);
+                count += countOccurrences(letter, text);
             }
 
             return count;
         }
 
-        //Method: countOccurences
+        //Method: countOccurrences
         //Arguments: char, string
         //Returns: int
-        //returns the total occurences of the letter in the text
-        private int countOccurences(char letter, string text)
+        //returns the total occurrences of the letter in the text
+        private int countOccurrences(char letter, string text)
         {
             int count = 0;
             // convert both strings to lowercase
             letter = char.ToLower(letter);
             text = text.ToLower();
             // loop through each characterin the text and compare with the letter
-            // return the total number of occurences of the letter
+            // return the total number of occurrences of the letter
             foreach (char c in text)
             {
                 // if the letter matches the character increase the count
@@ -201,11 +192,11 @@ namespace CMP1903M_Assessment_1_Base_Code
         //Method: countCase
         //Arguments: bool, string
         //Returns: int
-        //returns the total occurences of the specified case.
+        //returns the total occurrences of the specified case.
         // if upper is true uppercase is counted, if false then lowercase is counted.
         private int countCase(bool upper, string text)
         {
-            // the parameter upper refers to whetehr uppercase should be counted
+            // the parameter upper refers to whether uppercase should be counted
             // if true upper is counted
             // else lower is counted
 

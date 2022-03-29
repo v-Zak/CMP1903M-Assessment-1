@@ -9,9 +9,9 @@ namespace CMP1903M_Assessment_1_Base_Code
     public class FrequencyPair
     {
         // used to store a string and its associated frequency
-        public string value { get; set; }
+        public string value { get; private set; }
 
-        public int frequency { get; set; }
+        public int frequency { get; private set; }
 
         public FrequencyPair(string value, int frequency)
         {
