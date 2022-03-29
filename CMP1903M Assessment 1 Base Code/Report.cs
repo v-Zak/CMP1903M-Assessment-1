@@ -36,7 +36,7 @@ namespace CMP1903M_Assessment_1_Base_Code
         }
 
         //Method: outputConsole
-        //Arguments: list of FrequencPairs
+        //Arguments: list of FrequencyPairs
         //Returns: None
         //prints to the console the formatted list of pairs
         public void outputConsole(List<FrequencyPair> output)
